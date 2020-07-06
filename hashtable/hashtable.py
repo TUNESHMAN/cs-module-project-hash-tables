@@ -103,6 +103,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        if not self.storage[index]:
+            print("Not Found")
+        current = self.storage[index]
+        while current:
+            if current.key == key:
+                current.value == None
+                return
+            current = current.next
 
     def get(self, key):
         """
