@@ -113,6 +113,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        index = self.hash_index(key)
+        if not self.storage[index]:
+            return None
+        current = self.storage[index]
+        while current:
+            if current.key == key:
+                return current.value
+            # Reset our current
+            current = current.next
 
     def resize(self, new_capacity):
         """
