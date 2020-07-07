@@ -64,8 +64,9 @@ class HashTable:
         """
         # Your code here
         hash = 5381
-        for c in self.capacity:
+        for c in key:
             hash = ((hash << 5)+hash) + ord(c)
+        return hash
 
     def hash_index(self, key):
         """
@@ -86,13 +87,16 @@ class HashTable:
         # Your code here
         index = self.hash_index(key)
         if self.storage[index] is not None:
-            current = self.storage[i]
+            current = self.storage[index]
             while current:
                 # Override the value of current if None isn't there
                 if current.key == key:
                     current.value == value
+                    return
                 if current.next is None:
                     current.next == HashTableEntry(key, value)
+                    return
+                current = current.next
 
     def delete(self, key):
         """
@@ -106,6 +110,7 @@ class HashTable:
         index = self.hash_index(key)
         if not self.storage[index]:
             print("Not Found")
+            return
         current = self.storage[index]
         while current:
             if current.key == key:
