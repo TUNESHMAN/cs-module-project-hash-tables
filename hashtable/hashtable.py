@@ -8,6 +8,8 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def repr(self):
+        return f"HashTableEntry({self.key}, {self.value})"
 
 # Hash table can't have fewer than this many slots
 # MIN_CAPACITY = 8
@@ -86,15 +88,17 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        if self.storage[index] is not None:
+        if self.storage[index] is None:
+            self.storage[index] = HashTableEntry(key, value)
+        else:
             current = self.storage[index]
             while current:
-                # Override the value of current if None isn't there
+               # Override the value of current if None isn't there
                 if current.key == key:
-                    current.value == value
+                    current.value = value
                     return
                 if current.next is None:
-                    current.next == HashTableEntry(key, value)
+                    current.next = HashTableEntry(key, value)
                     return
                 current = current.next
 
@@ -114,7 +118,7 @@ class HashTable:
         current = self.storage[index]
         while current:
             if current.key == key:
-                current.value == None
+                current.value = None
                 return
             current = current.next
 
@@ -128,8 +132,10 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
+        # entry = self.storage[index]
         if not self.storage[index]:
             return None
+        # return entry.value
         current = self.storage[index]
         while current:
             if current.key == key:
@@ -145,6 +151,14 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        newHashTable = HashTable(self.capacity*2)
+        for i in range(self.capacity):
+            current = self.storage[i]
+            while current:
+                newHashTable.put(current.key, current.value)
+                current = current.next
+        self.storage = newHashTable.storage
+        self.capacity = newHashTable.capacity
 
 
 if __name__ == "__main__":
